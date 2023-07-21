@@ -1,0 +1,25 @@
+{% extends 'base.html'%}
+
+{% block content%}
+<form action="{% url 'mcqs_gen' %}" method="post">
+    {% csrf_token %}
+    
+ <h2>Succesfully Uploaded PDF</h2><br>
+
+<button onclick="displayGifAndRedirect()" style="background-color: #366677; border-radius: 10px; padding: 10px 10px;"><p style="font-family: Verdana, Helvetica, sans-serif; color: white; margin: 0;">Click to Generate MCQs</p></button>
+
+
+  <div id="gif-container"></div>
+</form>
+
+<script>
+    function displayGifAndRedirect() {
+       {% load static %}
+      const gifUrl = "{% static 'loading.gif' %}";
+      const imgElement = document.createElement("img");
+      imgElement.src = gifUrl;
+      document.getElementById("gif-container").appendChild(imgElement);
+      window.location.href = "http://127.0.0.1:8000/result";
+    }
+ </script>
+ {% endblock %}

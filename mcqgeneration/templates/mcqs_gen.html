@@ -1,0 +1,25 @@
+
+
+
+
+<!-- <form action="{% url 'mcq_result' %}" method="post">
+  {% csrf_token %}
+  {% for mcq in mcqs %}
+    <p>{{ mcq.text }}</p>
+    {% for option in mcq.options %}
+      <label>
+        <input type="radio" name="mcq{{ forloop.parentloop.counter0 }}[]" value="{{ option }}">
+        {{ option }}
+      </label>
+      <br>
+    {% endfor %}
+    <br>
+  {% endfor %}
+  <button type="submit">Submit</button>
+</form> -->
+
+{% for mcq in mcqs %}
+    <p>Q) {{ mcq.text }}<br>A){{mcq.correct_answer}}</p>
+{% endfor %}
+
+

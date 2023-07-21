@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block content%}
+<h2 styel='font-family: Verdana, Helvetica, sans-serif'>Upload a PDF file</h2>
+<br>
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.pdf_file }}
+    <style>
+  input[type="file"]::-webkit-file-upload-button {
+    background-color: #366677;
+    color: white;
+    border-radius: 10px;
+    padding: 5px 10px;
+    font-family: Verdana, Helvetica, sans-serif;
+  }
+</style>
+<button type="submit" style="background-color: #366677; border-radius: 10px; padding: 5px 10px;">
+    <p style="font-family: Verdana, Helvetica, sans-serif; color: white; margin: 0;">Upload</p>
+</button>
+
+
+
+</form>
+  {% endblock %}

@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="en">
+    <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <title>Chat App</title>
+    <script src="https://unpkg.com/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+<script src="https://unpkg.com/bootstrap@5.1.3/dist/js/bootstrap.min.js"></script>
+<style>
+  .curvy-button {
+  background-color: #366677; /* Set the button's background color */
+  border: none; /* Remove the button's border */
+  color: white; /* Set the button's text color */
+  padding: 10px 20px; /* Add padding to the button */
+  border-radius: 5px; /* Set the button's border radius to make it curved */
+  transition: all 0.3s ease; /* Add transition effect for hover */
+  font-family: Verdana, Helvetica, sans-serif;
+}
+
+.curvy-button:hover {
+  background-color: #3e8691; /* Change the background color on hover */
+  cursor: pointer; /* Change the cursor to a pointer on hover */
+}
+.navbar-brand {
+  background-color: #366677; /* Set the button's background color */
+  border: none; /* Remove the button's border */
+  color: white; /* Set the button's text color */
+  padding: 10px 20px; /* Add padding to the button */
+  border-radius: 40px; /* Set the button's border radius to make it curved */
+  transition: all 0.3s ease; /* Add transition effect for hover */
+  font-family: Verdana, Helvetica, sans-serif;
+}
+
+.navbar-brand:hover {
+  background-color: #3e8691; /* Change the background color on hover */
+  cursor: pointer; /* Change the cursor to a pointer on hover */
+}
+.nav-item {
+  background-color: #366677; /* Set the button's background color */
+  border: none; /* Remove the button's border */
+  color: white; /* Set the button's text color */
+  padding: 10px 20px; /* Add padding to the button */
+  border-radius: 40px; /* Set the button's border radius to make it curved */
+  transition: all 0.3s ease; /* Add transition effect for hover */
+  font-family: Verdana, Helvetica, sans-serif;
+}
+
+.nav-item:hover {
+  background-color: #3e8691; /* Change the background color on hover */
+  cursor: pointer; /* Change the cursor to a pointer on hover */
+}
+  </style>
+</head>
+  <body style="background: radial-gradient(circle, #55d2b9 0%, #282e58 100%)">
+     <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #366677;">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="{% url 'base' %}"><h3 style='font-family: Verdana, Helvetica, sans-serif'>CHATBOT APP</h3></a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="/base/"><p styel='font-family: Verdana, Helvetica, sans-serif'>Home</p></a>
+          
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" href="/index/"><p styel='font-family: Verdana, Helvetica, sans-serif'>Query Chat Bot</p></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" href="/upload_pdf/"><p styel='font-family: Verdana, Helvetica, sans-serif'>MCQ generation using PDF</p></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" href="/logout/"><p styel='font-family: Verdana, Helvetica, sans-serif'>Logout</p></a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <br>
+      <div class="container">
+        <div class="row">
+              <div class="col-md-6 mx-auto">
+                  <div class="card">
+                      <div class="card-header text-center", style="font-family:'Roboto','sans-serif'">
+                          <span><h2 styel='font-family: Verdana, Helvetica, sans-serif'>AI Chat Bot</h2></span>
+                      </div>
+                      <div class="card-body chat-care">
+                          <ul class="chat">
+                            <hr>
+                            {% for message in chat_history %}
+                            {% if message.user_input %}
+                            <li class="agent clearfix">
+                                  <div class="chat-body clearfix">
+                                      <div class="header clearfix">
+                                          <strong class="primary-font">{{message.user}} </strong> <small class="right text-muted mr-4">
+                                              <span class="glyphicon glyphicon-time"></span>{{ message.timestamp|timesince }} ago</small>
+                                      </div>
+                                      <p>
+                                        {{ message.user_input }}
+                                      </p>
+                                  </div>
+                            </li>
+
+        {% endif %}
+
+                              {% if message.ai_response %}
+                              <li class="admin clearfix">
+                                  
+                                  <div class="chat-body clearfix">
+                                      <div class="header clearfix">
+                                          <strong class="right primary-font">Chat Boot</strong>
+                                          <small class="left text-muted"><span class="glyphicon glyphicon-time"></span>{{ message.timestamp|timesince }} ago</small>
+                                      </div>
+                                      <p>
+                                          {{ message.ai_response }}
+                                      </p>
+                                  </div>
+                              </li>
+
+                              {% endif %}                            
+        {% endfor %}
+                          </ul>
+                      </div>
+                      <div class="card-footer">
+                        <form method="post">
+                            {% csrf_token %}
+                          <div class="input-group">
+                              <input id="btn-input" type="text" name="user_input" class="form-control input-sm" placeholder="Type your message here..." />
+
+                              <span class="input-group-btn">
+
+                                  <button class="btn btn-primary" id="btn-chat" type='submit'>
+                                      Send</button>
+                              </span>
+                          </div>
+                        </form>
+                        <div class="row justify-content-center">
+                          <a class="btn btn-info mt-3 mr-2" id="btn-chat" href="{% url 'clear' %}">Clear Chat</a>
+                          <a class="btn btn-danger mt-3" id="btn-chat" href="{% url 'logout' %}">
+                          Logout </a>
+                        </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div> 
+        <!-- Optional JavaScript -->
+        <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+        <!--<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.16.0/dist/umd/popper.min.js" integrity="sha384-fA23ZRQ3G/J53mElWqVJEGJzU0sTs+SvzG8fXVWP+kJQ1lwFAOkcUOysnlKJC33U" crossorigin="anonymous"></script>-->
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+        </body>
+        </html>
